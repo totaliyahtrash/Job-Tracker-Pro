@@ -1,0 +1,24 @@
+# Node dependencies
+node_modules/
+
+# Production build outputs
+dist/
+dist-app/
+
+# Local database file (user data - do not push to public GitHub!)
+jobs_db.json
+
+# Local environment variables
+.env
+.env.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.system_generated/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

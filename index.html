@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Tracker Pro</title>
+  <!-- Outfit & JetBrains Mono Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./src/index.css">
+</head>
+<body class="dark-theme">
+  <div class="app-container">
+    <!-- Top Nav Command Deck Header -->
+    <header class="top-nav-bar">
+      <div class="brand-group">
+        <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+        <span class="brand-text">JobTracker <span class="accent-pro">Pro</span></span>
+        <span class="telemetry-badge-online">
+          <span class="status-pulse-dot"></span>
+          SYS.ONLINE
+        </span>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="navigation-tabs">
+        <button class="nav-tab-btn active" data-view="dashboard" id="tab-dashboard">
+          Command Deck
+        </button>
+        <button class="nav-tab-btn" data-view="applications" id="tab-applications">
+          Pipeline Timeline
+        </button>
+        <button class="nav-tab-btn" data-view="resumes" id="tab-resumes">
+          Document Vault
+        </button>
+      </nav>
+
+      <!-- Right System Diagnostics Info -->
+      <div class="system-time-group">
+        <span class="socket-info-badge">SOCKET: 127.0.0.1:4656</span>
+        <span class="time-clock" id="system-time-clock">12:00:00 AM</span>
+      </div>
+    </header>
+
+    <!-- Main Workspace Area -->
+    <main class="main-workspace" id="main-workspace">
+      <div class="view-loading">
+        <div class="spinner"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Global Modal Overlay Layer -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-card" id="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-title">Modal Title</h3>
+        <button class="modal-close" id="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Form elements get dynamically injected here -->
+      </div>
+      <div class="modal-footer" id="modal-footer">
+        <button class="btn-secondary" id="btn-modal-cancel">Cancel</button>
+        <button class="btn-primary" id="btn-modal-submit">Save changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JS Startup -->
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Tracker Pro Logger</title>
+  <!-- Outfit & JetBrains Mono Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #040406;
+      --bg-card: #0a0b10;
+      --border-light: rgba(255, 255, 255, 0.05);
+      --border-active: rgba(0, 242, 254, 0.2);
+      --text-primary: #f3f4f6;
+      --text-secondary: #9ca3af;
+      --text-muted: #4b5563;
+      --accent-cyan: #00f2fe;
+      --accent-blue: #3b82f6;
+      --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #00f2fe 100%);
+      --font-display: 'Outfit', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    body {
+      width: 330px;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: var(--font-display);
+      margin: 0;
+      padding: 18px;
+      box-sizing: border-box;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-icon {
+      width: 18px;
+      height: 18px;
+      color: var(--accent-cyan);
+      filter: drop-shadow(0 0 5px rgba(0, 242, 254, 0.4));
+    }
+
+    .brand-text {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .badge-status {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--accent-cyan);
+      background: rgba(0, 242, 254, 0.05);
+      border: 1px solid rgba(0, 242, 254, 0.15);
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    label {
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      letter-spacing: 0.8px;
+    }
+
+    .input-field {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: var(--text-primary);
+      font-size: 12px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+      box-sizing: border-box;
+      font-family: inherit;
+    }
+
+    .input-field:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 10px rgba(0, 242, 254, 0.15);
+    }
+
+    textarea.input-field {
+      min-height: 80px;
+      resize: vertical;
+      font-family: inherit;
+      line-height: 1.4;
+    }
+
+    .input-mono {
+      font-family: var(--font-mono);
+      color: var(--accent-cyan);
+      font-size: 11px;
+    }
+
+    .btn-sync {
+      width: 100%;
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: 6px;
+      color: #000000;
+      font-family: var(--font-display);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 0 12px rgba(0, 242, 254, 0.1);
+      margin-top: 16px;
+    }
+
+    .btn-sync:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 18px rgba(0, 242, 254, 0.3);
+    }
+
+    .btn-sync:active {
+      transform: translateY(0);
+    }
+
+    .status-msg {
+      font-size: 11px;
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+      padding: 8px;
+      border-radius: 6px;
+      line-height: 1.4;
+      font-family: var(--font-mono);
+    }
+
+    .status-msg.info {
+      background-color: rgba(59, 130, 246, 0.05);
+      color: #3b82f6;
+      border: 1px solid rgba(59, 130, 246, 0.15);
+    }
+
+    .status-msg.success {
+      background-color: rgba(16, 185, 129, 0.05);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.15);
+    }
+
+    .status-msg.error {
+      background-color: rgba(244, 63, 94, 0.05);
+      color: #f43f5e;
+      border: 1px solid rgba(244, 63, 94, 0.15);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="brand-area">
+      <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+      </svg>
+      <span class="brand-text" id="brand-title">JOB TRACKER</span>
+    </div>
+    <span class="badge-status" id="mode-badge">Job Mode</span>
+  </div>
+
+  <!-- JOB LOGGING PANEL (Active on JD pages) -->
+  <div id="job-panel" class="panel active">
+    <div class="form-group">
+      <label for="company">Company</label>
+      <input type="text" id="company" class="input-field" placeholder="Scraped Company" />
+    </div>
+
+    <div class="form-group">
+      <label for="role">Role Title</label>
+      <input type="text" id="role" class="input-field" placeholder="Scraped Role" />
+    </div>
+
+    <div class="form-group">
+      <label for="platform">Platform</label>
+      <input type="text" id="platform" class="input-field" readonly />
+    </div>
+
+    <div class="form-group">
+      <label for="url">Job Listing Link</label>
+      <input type="text" id="url" class="input-field input-mono" readonly />
+    </div>
+
+    <div class="form-group">
+      <label for="jd">Job Description (JD)</label>
+      <textarea id="jd" class="input-field" placeholder="No description found..."></textarea>
+    </div>
+
+    <button class="btn-sync" id="sync-job-btn">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M21.2 15c.7-1.2 1-2.5.7-3.9-.6-2.9-3-5.3-5.9-5.9C12.5 4.5 9 6.5 7.6 9.6M3 11v4h4"></path>
+        <path d="M2.8 9c-.7 1.2-1 2.5-.7 3.9.6 2.9 3 5.3 5.9 5.9 3.6.7 7.1-1.3 8.5-4.4M21 13v-4h-4"></path>
+      </svg>
+      Log Application
+    </button>
+  </div>
+
+  <!-- COLD EMAIL OUTREACH PANEL (Active on LinkedIn Profiles) -->
+  <div id="profile-panel" class="panel">
+    <div class="form-group">
+      <label for="prof-company">Target Company</label>
+      <input type="text" id="prof-company" class="input-field" placeholder="Scraped Recruiter Employer" />
+    </div>
+
+    <div class="form-group">
+      <label for="prof-role">Target Role (Your Choice)</label>
+      <input type="text" id="prof-role" class="input-field" placeholder="e.g. Software Engineer" />
+    </div>
+
+    <div class="form-group">
+      <label for="prof-recruiter-name">Contact Person</label>
+      <input type="text" id="prof-recruiter-name" class="input-field" placeholder="Scraped Recruiter Name" />
+    </div>
+
+    <div class="form-group">
+      <label for="prof-recruiter-email">Contact Email (Apollo Scraped)</label>
+      <input type="email" id="prof-recruiter-email" class="input-field" placeholder="No email found - paste here if needed" />
+    </div>
+
+    <div class="form-group">
+      <label for="prof-recruiter-linkedin">Recruiter LinkedIn Link</label>
+      <input type="text" id="prof-recruiter-linkedin" class="input-field input-mono" readonly />
+    </div>
+
+    <button class="btn-sync" id="sync-profile-btn">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+      Log Cold Email listing
+    </button>
+  </div>
+
+  <div id="status" class="status-msg"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

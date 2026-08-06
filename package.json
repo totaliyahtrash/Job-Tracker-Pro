@@ -1,0 +1,20 @@
+{
+  "name": "job-tracker-pro",
+  "version": "1.0.0",
+  "description": "Premium developer job search command center",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "electron .",
+    "package": "npm run build && electron-packager . JobTracker --platform=win32 --arch=x64 --out=dist-app --overwrite"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-packager": "^17.1.2",
+    "vite": "^5.4.21"
+  }
+}
